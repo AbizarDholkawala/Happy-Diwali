@@ -126,8 +126,6 @@ Diwali/
 
 ## 🌐 Deployment (Firebase Hosting)
 
-Deploy your own live version in seconds:
-
 1. **Install Firebase CLI**:
    ```bash
    npm install -g firebase-tools
