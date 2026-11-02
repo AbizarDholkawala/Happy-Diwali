@@ -1,4 +1,4 @@
-# 🪔 Shubh Deepawali — Digital Diya Greeting Experience
+# 🪔 Shubh Deepawali  Digital Diya Greeting Experience
 
 > A modern, contest-grade interactive Diwali digital greeting web application. Create, customize, and share personalized Diwali greetings with glowing digital diyas, festive music, firecrackers, and shareable links with zero database setup.
 
