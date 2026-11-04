@@ -78,9 +78,9 @@ export async function generateGreetingCardBlob(data) {
 
   // 4. Shubh Deepavali Sanskrit Header
   ctx.textAlign = 'center';
-  ctx.fillStyle = 'rgba(255, 209, 128, 0.7)';
-  ctx.font = '500 24px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
-  ctx.letterSpacing = '6px';
+  ctx.fillStyle = 'rgba(255, 209, 128, 0.85)';
+  ctx.font = '500 24px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Devanagari", sans-serif';
+  ctx.letterSpacing = '0px';
   ctx.fillText('—  शुभ दीपावली  —', width / 2, 120);
 
   // 5. "Happy Diwali" Grand Golden Title

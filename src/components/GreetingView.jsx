@@ -392,7 +392,7 @@ export default function GreetingView({ data, onCreateOwn, isPreview = false, isC
         }}>
           <span className="greeting-subheading">
             <span className="greeting-line" />
-            <span>शुभ दीपावली</span>
+            <span className="greeting-hindi-text">शुभ दीपावली</span>
             <span className="greeting-line" />
           </span>
         </div>
