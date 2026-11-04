@@ -44,11 +44,6 @@
   - **Mobile Compliant**: Direct `touchend` user-activation compliance for seamless unmuted playback on Android and iOS.
   - **Web Audio Raga Synthesizer Fallback**: Built-in procedural Tanpura and Bansuri synthesizer that generates authentic Indian classical raga ambient music offline if audio files are unavailable.
 
-- **ℹ️ Developer Attribution Badge**:
-  - Minimalist golden `ⓘ` badge matching the music player's dimensions.
-  - **PC**: Shows developer name on hover directly to the right with a smooth 0.3s transition.
-  - **Android/Mobile**: Tapping triggers a 2-second auto-minimizing pill tooltip.
-
 - **📸 High-Resolution PNG Card Download**:
   - Client-side pure HTML5 Canvas export generating 1080×1350 (4:5 portrait) greeting cards ready for Instagram stories, WhatsApp statuses, and print.
   - Guaranteed typographic spacing, centered diya lighting, and decorative borders.
