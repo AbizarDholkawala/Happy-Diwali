@@ -15,6 +15,7 @@ export function encodeGreeting(data) {
     d: data.diyaStyle || 'classic',
     t: data.bgTheme || 'ethereal',
     n: Number(data.diyas) || 3,
+    b: data.boxStyle || 'square',
   };
 
   const json = JSON.stringify(compact);
@@ -66,6 +67,7 @@ export function decodeGreeting(encoded) {
       diyaStyle: compact.d || 'classic',
       bgTheme: compact.t || 'ethereal',
       diyas: compact.n || 3,
+      boxStyle: compact.b || 'square',
       photo: null,
     };
   } catch (e) {

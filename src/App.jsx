@@ -12,7 +12,84 @@ import ShareModal from './components/ShareModal';
 import PreviewModal from './components/PreviewModal';
 import FirecrackerEffects from './components/FirecrackerEffects';
 import MusicPlayer from './components/MusicPlayer';
+import GiftBoxReveal from './components/GiftBoxReveal';
 import { encodeGreeting, decodeGreeting } from './utils/codec';
+
+/* ─── Developer Info Button ─── */
+function DevInfoButton() {
+  const [visible, setVisible] = useState(false);
+  const timerRef = useRef(null);
+  const isTouchRef = useRef(false);
+
+  // PC Hover Handlers
+  const handleMouseEnter = () => {
+    if (isTouchRef.current) return;
+    if (timerRef.current) clearTimeout(timerRef.current);
+    setVisible(true);
+  };
+
+  const handleMouseLeave = () => {
+    if (isTouchRef.current) return;
+    if (timerRef.current) clearTimeout(timerRef.current);
+    // 0.3 sec delay before hiding on PC
+    timerRef.current = setTimeout(() => {
+      setVisible(false);
+    }, 300);
+  };
+
+  // Android / Mobile Touch Handlers
+  const handleTouchStart = () => {
+    isTouchRef.current = true;
+  };
+
+  const handleClick = (e) => {
+    // Check if on PC (hover capable mouse device)
+    const isDesktop = typeof window !== 'undefined' &&
+      window.matchMedia &&
+      window.matchMedia('(hover: hover) and (pointer: fine)').matches &&
+      !isTouchRef.current;
+
+    if (isDesktop) {
+      // Not clickable on PC
+      e.preventDefault();
+      e.stopPropagation();
+      return;
+    }
+
+    // Android / touch: click shows for 2 seconds and auto minimizes
+    if (timerRef.current) clearTimeout(timerRef.current);
+    setVisible(true);
+    timerRef.current = setTimeout(() => {
+      setVisible(false);
+      isTouchRef.current = false;
+    }, 2000);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, []);
+
+  return (
+    <div className="dev-info-wrapper">
+      <button
+        className="dev-info-btn"
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        onTouchStart={handleTouchStart}
+        onClick={handleClick}
+        aria-label="Developer: Abizar Dholkawala"
+        type="button"
+      >
+        <span className="dev-info-letter">i</span>
+      </button>
+      <div className={`dev-info-tooltip ${visible ? 'visible' : ''}`} role="tooltip">
+        Crafted with ❤️ by <strong>Abizar Dholkawala</strong>
+      </div>
+    </div>
+  );
+}
 
 /* ─── Diya Style Options ─── */
 const DIYA_STYLES = [
@@ -28,6 +105,14 @@ const BG_THEMES = [
   { id: 'festive', label: 'Festive Red', color: '#1a0808' },
   { id: 'celestial', label: 'Celestial Blue', color: '#0a0a1a' },
   { id: 'garden', label: 'Garden Green', color: '#0a1a0a' },
+];
+
+/* ─── Gift Box Style Options ─── */
+const GIFT_BOX_OPTIONS = [
+  { id: 'square', label: 'Ruby Square', desc: 'Classic Royal Ruby & Gold', color: '#A80D2A', icon: '🎁' },
+  { id: 'rectangle', label: 'Emerald Hamper', desc: 'Regal Mithai & Gift Hamper', color: '#0D5936', icon: '📦' },
+  { id: 'round', label: 'Saffron Round', desc: 'Imperial Velvet Hatbox', color: '#B84700', icon: '🪔' },
+  { id: 'heart', label: 'Prem Heart', desc: 'Velvet Crimson Heart Box', color: '#8A0E4D', icon: '💖' },
 ];
 
 const TOTAL_STEPS = 3;
@@ -53,19 +138,30 @@ export default function App() {
 
   const [greetingData, setGreetingData] = useState(initialGreeting);
   const [isCreator, setIsCreator] = useState(!initialGreeting);
+  // showGiftBox is true only for shared links; becomes false once tapped
+  const [showGiftBox, setShowGiftBox] = useState(!!initialGreeting);
 
   if (!isCreator && greetingData) {
     return (
       <>
-        <GreetingView
-          data={greetingData}
-          onCreateOwn={() => {
-            window.history.replaceState({}, '', window.location.pathname);
-            setIsCreator(true);
-            setGreetingData(null);
-          }}
-        />
-        <MusicPlayer />
+        {showGiftBox ? (
+          <GiftBoxReveal
+            recipientName={greetingData.recipientName}
+            boxStyle={greetingData.boxStyle}
+            onOpen={() => setShowGiftBox(false)}
+          />
+        ) : (
+          <GreetingView
+            data={greetingData}
+            onCreateOwn={() => {
+              window.history.replaceState({}, '', window.location.pathname);
+              setIsCreator(true);
+              setGreetingData(null);
+            }}
+          />
+        )}
+        <MusicPlayer giftBoxOpen={!showGiftBox} />
+        <DevInfoButton />
       </>
     );
   }
@@ -74,6 +170,7 @@ export default function App() {
     <>
       <CreatorView />
       <MusicPlayer />
+      <DevInfoButton />
     </>
   );
 }
@@ -97,6 +194,7 @@ function CreatorView() {
   const [diyaStyle, setDiyaStyle] = useState('classic');
   const [bgTheme, setBgTheme] = useState('ethereal');
   const [diyas, setDiyas] = useState(3);
+  const [boxStyle, setBoxStyle] = useState('square');
 
   const formData = useMemo(() => ({
     senderName,
@@ -106,7 +204,8 @@ function CreatorView() {
     bgTheme,
     photo: null,
     diyas,
-  }), [senderName, recipientName, message, diyaStyle, bgTheme, diyas]);
+    boxStyle,
+  }), [senderName, recipientName, message, diyaStyle, bgTheme, diyas, boxStyle]);
 
   const generateLink = useCallback(() => {
     const encoded = encodeGreeting(formData);
@@ -204,6 +303,8 @@ function CreatorView() {
               setBgTheme={setBgTheme}
               diyas={diyas}
               setDiyas={setDiyas}
+              boxStyle={boxStyle}
+              setBoxStyle={setBoxStyle}
             />
           )}
 
@@ -416,9 +517,14 @@ function StepMessage({ message, setMessage }) {
 }
 
 /* ═══════════════════════════════════════════
-   STEP 3: CUSTOMIZE (DIYA, THEME & COUNT)
+   STEP 3: CUSTOMIZE (DIYA, THEME, GIFT BOX & COUNT)
    ═══════════════════════════════════════════ */
-function StepCustomize({ diyaStyle, setDiyaStyle, bgTheme, setBgTheme, diyas, setDiyas }) {
+function StepCustomize({
+  diyaStyle, setDiyaStyle,
+  bgTheme, setBgTheme,
+  diyas, setDiyas,
+  boxStyle, setBoxStyle
+}) {
   return (
     <div className="step-card glass">
       <div className="step-card-header">
@@ -427,14 +533,48 @@ function StepCustomize({ diyaStyle, setDiyaStyle, bgTheme, setBgTheme, diyas, se
         </div>
         <div>
           <h2 className="step-card-title">Customize your greeting</h2>
-          <p className="step-card-desc">Choose diya style, background aura & count</p>
+          <p className="step-card-desc">Choose diya style, background aura, gift box & count</p>
+        </div>
+      </div>
+
+      {/* Surprise Gift Box Selection */}
+      <div className="form-group">
+        <label className="form-label">
+          Surprise Gift Box (What Recipient Sees First)
+        </label>
+        <div className="select-grid select-grid-4">
+          {GIFT_BOX_OPTIONS.map(b => (
+            <div
+              key={b.id}
+              className={`select-card ${boxStyle === b.id ? 'active' : ''}`}
+              onClick={() => setBoxStyle(b.id)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') setBoxStyle(b.id); }}
+            >
+              <div
+                className="select-card-swatch gift-box-swatch"
+                style={{
+                  background: `linear-gradient(135deg, ${b.color}, var(--bg-void))`,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '1.3rem',
+                }}
+              >
+                <span>{b.icon}</span>
+              </div>
+              <span className="select-card-label">{b.label}</span>
+              <span className="select-card-desc">{b.desc}</span>
+            </div>
+          ))}
         </div>
       </div>
 
       {/* Diya Style Selection */}
       <div className="form-group">
         <label className="form-label">Diya Style</label>
-        <div className="select-grid">
+        <div className="select-grid select-grid-4">
           {DIYA_STYLES.map(s => (
             <div
               key={s.id}
@@ -445,7 +585,7 @@ function StepCustomize({ diyaStyle, setDiyaStyle, bgTheme, setBgTheme, diyas, se
               onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') setDiyaStyle(s.id); }}
             >
               <div className="select-card-icon">
-                <DiyaSVG style={s.id} size={36} animate={false} />
+                <DiyaSVG style={s.id} size={48} animate={false} />
               </div>
               <span className="select-card-label">{s.label}</span>
               <span className="select-card-desc">{s.desc}</span>

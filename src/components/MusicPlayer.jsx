@@ -12,7 +12,51 @@ function formatTime(seconds) {
   return `${mins}:${secs.toString().padStart(2, '0')}`;
 }
 
-export default function MusicPlayer() {
+/* ─── High Quality Golden Music SVG Icon ─── */
+function GoldMusicIcon({ isPlaying }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      width="20"
+      height="20"
+      className={`gold-music-svg ${isPlaying ? 'spinning-gold-disc' : ''}`}
+      style={{ overflow: 'visible' }}
+    >
+      <defs>
+        <linearGradient id="goldMusicGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#FFF4BD" />
+          <stop offset="35%" stopColor="#F5A623" />
+          <stop offset="70%" stopColor="#D4A847" />
+          <stop offset="100%" stopColor="#8A6417" />
+        </linearGradient>
+        <radialGradient id="goldInnerAura" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#FFFBE6" stopOpacity="0.9" />
+          <stop offset="60%" stopColor="#F5A623" stopOpacity="0.4" />
+          <stop offset="100%" stopColor="#D4A847" stopOpacity="0" />
+        </radialGradient>
+      </defs>
+      {/* Concentric Gold Vinyl Grooves */}
+      <circle cx="12" cy="12" r="10.5" fill="none" stroke="url(#goldMusicGrad)" strokeWidth="1.3" opacity="0.95"/>
+      <circle cx="12" cy="12" r="8.2" fill="none" stroke="url(#goldMusicGrad)" strokeWidth="0.75" strokeDasharray="2.5,2" opacity="0.7"/>
+      <circle cx="12" cy="12" r="5.8" fill="url(#goldInnerAura)"/>
+      {/* Diya Note in Center */}
+      <path
+        d="M10.2 15.2 C10.2 16.3 11 17 12 17 C13 17 13.8 16.3 13.8 15.2 C13.8 13.8 12 12.2 12 12.2 C12 12.2 10.2 13.8 10.2 15.2 Z"
+        fill="url(#goldMusicGrad)"
+      />
+      <path
+        d="M13 13.5 L13 7.8 C13 7.2 13.6 6.8 14.5 7 L16.2 7.4 C16.8 7.5 17.2 8 17.2 8.6 L17.2 9.2"
+        fill="none"
+        stroke="url(#goldMusicGrad)"
+        strokeWidth="1.4"
+        strokeLinecap="round"
+      />
+      <circle cx="12" cy="15.2" r="1.1" fill="#FFFFFF" opacity="0.95"/>
+    </svg>
+  );
+}
+
+export default function MusicPlayer({ giftBoxOpen = true }) {
   const [isOpen, setIsOpen] = useState(false);
   const [audioState, setAudioState] = useState(() => audioEngine ? audioEngine.getState() : {
     currentTrack: TRACKS[0],
@@ -32,6 +76,12 @@ export default function MusicPlayer() {
     });
     return unsubscribe;
   }, []);
+
+  /* ─── When gift box is tapped and dismissed, trigger audio (guaranteed user gesture) ─── */
+  useEffect(() => {
+    if (!audioEngine || !giftBoxOpen) return;
+    audioEngine.play().catch(() => {});
+  }, [giftBoxOpen]);
 
   /* ─── Autoplay Music on Page Load / First User Gesture (Android & Mobile Compliant) ─── */
   useEffect(() => {
@@ -145,25 +195,23 @@ export default function MusicPlayer() {
         className={`music-floating-pill ${isPlaying ? 'playing' : 'pulse-prompt'}`}
         onClick={() => setIsOpen(true)}
         role="region"
-        aria-label="Diwali Music Player"
+        aria-label="Diwali Music Player - Click to open playlist"
+        title="Click to change music"
       >
-        <div className={`pill-disc ${isPlaying ? 'spinning' : ''}`}>
-          <Disc size={18} color="var(--amber)" />
+        <div className="pill-gold-disc-wrap">
+          <GoldMusicIcon isPlaying={isPlaying} />
         </div>
 
-        <div className="pill-info">
+        {/* Revealed on hover on PC; always visible on mobile */}
+        <div className="pill-reveal-content">
           <span className="pill-title">{currentTrack?.title || 'Diwali Music'}</span>
-          <span className="pill-status">
-            {isPlaying ? (
-              <span className="pill-eq">
-                <span className="bar" />
-                <span className="bar" />
-                <span className="bar" />
-              </span>
-            ) : (
-              'Tap for Music 🎵'
-            )}
-          </span>
+          {isPlaying && (
+            <span className="pill-eq">
+              <span className="bar" />
+              <span className="bar" />
+              <span className="bar" />
+            </span>
+          )}
         </div>
 
         <button
@@ -172,7 +220,7 @@ export default function MusicPlayer() {
           aria-label={isPlaying ? 'Pause music' : 'Play music'}
           title={isPlaying ? 'Pause' : 'Play'}
         >
-          {isPlaying ? <Pause size={15} fill="currentColor" /> : <Play size={15} fill="currentColor" style={{ marginLeft: '2px' }} />}
+          {isPlaying ? <Pause size={14} fill="currentColor" /> : <Play size={14} fill="currentColor" style={{ marginLeft: '2px' }} />}
         </button>
       </aside>
 

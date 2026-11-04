@@ -8,7 +8,7 @@
 export const TRACKS = [
   {
     id: 0,
-    title: 'Divine Bansuri & Bells',
+    title: 'Divine Bansuri',
     subtitle: 'Soothing Bamboo Flute & Temple Chimes',
     src: '/audio/1.mp3',
     altSrc: '/audio/track-1.mp3',
@@ -21,7 +21,7 @@ export const TRACKS = [
   },
   {
     id: 1,
-    title: 'Soulful Sitar Raga',
+    title: 'Soulful Sitar',
     subtitle: 'Classical Plucked Sitar & Tanpura Drone',
     src: '/audio/2.mp3',
     altSrc: '/audio/track-2.mp3',
@@ -34,7 +34,7 @@ export const TRACKS = [
   },
   {
     id: 2,
-    title: 'Temple Dawn & Om Resonance',
+    title: 'Temple Dawn',
     subtitle: 'Morning Aarti, Singing Bowls & Resonance',
     src: '/audio/3.mp3',
     altSrc: '/audio/track-3.mp3',
@@ -47,7 +47,7 @@ export const TRACKS = [
   },
   {
     id: 3,
-    title: 'Festive Joy & Celebration',
+    title: 'Festive Joy',
     subtitle: 'Uplifting Diwali Rhythms & Folk Charm',
     src: '/audio/4.mp3',
     altSrc: '/audio/track-4.mp3',
@@ -60,7 +60,7 @@ export const TRACKS = [
   },
   {
     id: 4,
-    title: 'Deepavali Mahaparv Aarti',
+    title: 'Deepavali Aarti',
     subtitle: 'Deep Diya Glow Harmony & Sacred Bells',
     src: '/audio/5.mp3',
     altSrc: '/audio/track-5.mp3',

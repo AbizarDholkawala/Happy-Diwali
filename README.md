@@ -11,14 +11,19 @@
 
 ## ✨ Features
 
+- **🎁 Interactive 3D Surprise Gift Box Unboxing**:
+  - When opening a shared greeting link, recipients are greeted by an interactive, glowing 3D festive gift box with a satin ribbon bow and anticipation wobble (Duolingo quest reward style).
+  - Tapping or clicking the box bursts confetti and fireworks, smoothly unlocks background audio across iOS and Android, and reveals the personalized greeting card.
+  - Creators can choose from 4 distinct festive gift box designs (*Ruby Square*, *Emerald Hamper*, *Saffron Round*, and *Prem Heart*).
+
 - **🎨 3-Step Interactive Greeting Builder**:
   - **Names**: Enter the recipient's name and optional sender signature.
   - **Heartfelt Wishes**: Write your own custom message or choose from curated quick Diwali presets.
-  - **Festive Customization**: Choose between 4 distinct Diya styles (*Classic Clay*, *Ornate Festival*, *Modern Minimalist*, *Lotus Petal*), adjust diya counts (1 to 7), and select from 4 atmospheric background themes (*Ethereal Glow*, *Festive Red*, *Celestial Blue*, *Garden Green*).
+  - **Festive Customization**: Choose between 4 distinct Diya styles (*Classic Clay*, *Ornate Festival*, *Modern Minimalist*, *Lotus Petal*), 4 surprise gift box styles, adjust diya counts (1 to 7), and select from 4 atmospheric background themes (*Ethereal Glow*, *Festive Red*, *Celestial Blue*, *Garden Green*).
 
 - **🔗 Zero-Database URL Sharing**:
   - Entire greetings are compressed into URL query strings (`?g=...`) using LZ-String + URL-safe Base64 encoding.
-  - Instant sharing via **WhatsApp**, **Facebook**, **X (Twitter)**, and the **Native Mobile Share Sheet** (`navigator.share`).
+  - Instant sharing via **Instagram** (copies link & opens Instagram), **WhatsApp**, **X**, and the **Native Mobile Share Sheet** (`navigator.share`).
   - No database, no logins, and zero tracking — permanent and lightweight.
 
 - **🎆 Interactive & Ambient Firecrackers**:
@@ -27,16 +32,22 @@
   - **Interactive Love Note**: Floating blended transparent badge *"Show some love by tapping the screen"* with a one-time golden shimmer that reacts to taps.
 
 - **🎵 Festive Diwali Music Player**:
-  - Floating vinyl/diya pill with animated dancing equalizer bars.
+  - Compact gold vinyl & diya SVG music pill in the lower right.
+  - **PC Hover Animation**: Automatically expands on hover to display currently playing song, equalizer, and play/pause controls; clicking opens the full diwali music drawer.
   - Slide-out side drawer with playback controls: **Play**, **Pause**, **Seamless Loop**, **Previous**, **Next**, **Volume Slider**, and interactive track scrubber.
   - **5 Curated Festive Tracks**:
-    1. *Divine Bansuri & Bells* (1:31)
-    2. *Soulful Sitar Raga* (2:20)
-    3. *Temple Dawn & Om Resonance* (2:08)
-    4. *Festive Joy & Celebration* (2:39)
-    5. *Deepavali Mahaparv Aarti* (4:44)
+    1. *Divine Bansuri* (1:31)
+    2. *Soulful Sitar* (2:20)
+    3. *Temple Dawn* (2:08)
+    4. *Festive Joy* (2:39)
+    5. *Deepavali Aarti* (4:44)
   - **Mobile Compliant**: Direct `touchend` user-activation compliance for seamless unmuted playback on Android and iOS.
   - **Web Audio Raga Synthesizer Fallback**: Built-in procedural Tanpura and Bansuri synthesizer that generates authentic Indian classical raga ambient music offline if audio files are unavailable.
+
+- **ℹ️ Developer Attribution Badge**:
+  - Minimalist golden `ⓘ` badge matching the music player's dimensions.
+  - **PC**: Shows developer name on hover directly to the right with a smooth 0.3s transition.
+  - **Android/Mobile**: Tapping triggers a 2-second auto-minimizing pill tooltip.
 
 - **📸 High-Resolution PNG Card Download**:
   - Client-side pure HTML5 Canvas export generating 1080×1350 (4:5 portrait) greeting cards ready for Instagram stories, WhatsApp statuses, and print.
@@ -72,6 +83,7 @@ Diwali/
 │   │   ├── BokehBackground.jsx      # Ambient glowing festival particles
 │   │   ├── DiyaSVG.jsx              # Vector diya models with flame animations
 │   │   ├── FirecrackerEffects.jsx   # Touch-activated & ambient fireworks engine
+│   │   ├── GiftBoxReveal.jsx        # 3D interactive surprise gift box with ribbon & unboxing
 │   │   ├── GreetingView.jsx         # Cinematic shared greeting view
 │   │   ├── MusicPlayer.jsx          # Floating pill & slide-out side music drawer
 │   │   ├── PreviewModal.jsx         # Zoomable, fixed-size card preview dialog
