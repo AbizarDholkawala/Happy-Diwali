@@ -247,7 +247,7 @@ function CreatorView() {
       <FirecrackerEffects triggerBurst={burstCount} />
 
       {/* ─── Centralized Frame (Fits inside 1 single frame at 100% zoom) ─── */}
-      <main className="creator-main-frame">
+      <main className={`creator-main-frame ${step > 0 ? 'creator-main-frame-wide' : ''}`}>
         {/* ─── Header ─── */}
         <header className="creator-header">
           <div className="creator-header-badge">
@@ -277,7 +277,7 @@ function CreatorView() {
 
         {/* ─── Standardized Container (Unified width across all steps) ─── */}
         <div
-          className={`creator-container ${!hasNavigated ? 'fade-in-initial' : (direction === 'forward' ? 'slide-in-right' : 'slide-in-left')}`}
+          className={`creator-container ${step > 0 ? 'creator-container-wide' : ''} ${!hasNavigated ? 'fade-in-initial' : (direction === 'forward' ? 'slide-in-right' : 'slide-in-left')}`}
           key={step}
         >
           {step === 0 && (
@@ -468,7 +468,7 @@ function StepMessage({ message, setMessage }) {
   ];
 
   return (
-    <div className="step-card glass">
+    <div className="step-card glass step-card-message">
       <div className="step-card-header">
         <div className="step-icon-wrapper">
           <Type size={20} color="var(--amber)" />
@@ -479,37 +479,42 @@ function StepMessage({ message, setMessage }) {
         </div>
       </div>
 
-      <div className="form-group">
-        <label className="form-label" htmlFor="message-textarea">Personal Message *</label>
-        <textarea
-          id="message-textarea"
-          className="input-field textarea-field"
-          placeholder="Write something heartfelt..."
-          value={message}
-          onChange={e => setMessage(e.target.value)}
-          maxLength={500}
-          rows={3}
-        />
-        <span className="char-counter">
-          {message.length}/500
-        </span>
-      </div>
+      <div className="step-message-body-grid">
+        <div className="form-group step-message-col-left">
+          <label className="form-label" htmlFor="message-textarea">Personal Message *</label>
+          <textarea
+            id="message-textarea"
+            className="input-field textarea-field"
+            placeholder="Write something heartfelt..."
+            value={message}
+            onChange={e => setMessage(e.target.value)}
+            maxLength={500}
+            rows={4}
+          />
+          <div className="textarea-footer">
+            <span className="textarea-tip">💡 Tip: Click any preset to instantly apply</span>
+            <span className="char-counter">
+              {message.length}/500
+            </span>
+          </div>
+        </div>
 
-      <div className="preset-section">
-        <p className="preset-label">
-          <Sparkles size={13} color="var(--amber)" /> Quick presets (click to apply):
-        </p>
-        <div className="preset-list">
-          {presetMessages.map((msg, i) => (
-            <button
-              key={i}
-              type="button"
-              className={`preset-btn ${message === msg ? 'active' : ''}`}
-              onClick={() => setMessage(msg)}
-            >
-              {msg}
-            </button>
-          ))}
+        <div className="preset-section step-message-col-right">
+          <p className="preset-label">
+            <Sparkles size={13} color="var(--amber)" /> Quick presets (click to apply):
+          </p>
+          <div className="preset-list">
+            {presetMessages.map((msg, i) => (
+              <button
+                key={i}
+                type="button"
+                className={`preset-btn ${message === msg ? 'active' : ''}`}
+                onClick={() => setMessage(msg)}
+              >
+                {msg}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
     </div>
@@ -526,7 +531,7 @@ function StepCustomize({
   boxStyle, setBoxStyle
 }) {
   return (
-    <div className="step-card glass">
+    <div className="step-card glass step-card-customize">
       <div className="step-card-header">
         <div className="step-icon-wrapper">
           <Palette size={20} color="var(--amber)" />
@@ -542,7 +547,7 @@ function StepCustomize({
         <label className="form-label">
           Surprise Gift Box (What Recipient Sees First)
         </label>
-        <div className="select-grid select-grid-4">
+        <div className="select-grid select-grid-4 select-grid-gift">
           {GIFT_BOX_OPTIONS.map(b => (
             <div
               key={b.id}
@@ -556,13 +561,9 @@ function StepCustomize({
                 className="select-card-swatch gift-box-swatch"
                 style={{
                   background: `linear-gradient(135deg, ${b.color}, var(--bg-void))`,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: '1.3rem',
                 }}
               >
-                <span>{b.icon}</span>
+                <span className="gift-box-icon-emoji">{b.icon}</span>
               </div>
               <span className="select-card-label">{b.label}</span>
               <span className="select-card-desc">{b.desc}</span>
@@ -585,7 +586,7 @@ function StepCustomize({
               onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') setDiyaStyle(s.id); }}
             >
               <div className="select-card-icon">
-                <DiyaSVG style={s.id} size={48} animate={false} />
+                <DiyaSVG style={s.id} size={56} animate={false} />
               </div>
               <span className="select-card-label">{s.label}</span>
               <span className="select-card-desc">{s.desc}</span>

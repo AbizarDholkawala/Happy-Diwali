@@ -421,6 +421,7 @@ h1, h2, h3, h4 {
   z-index: 10;
   box-sizing: border-box;
   animation: fadeInInitial 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  transition: max-width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .creator-header {
@@ -518,6 +519,7 @@ h1, h2, h3, h4 {
   position: relative;
   z-index: 10;
   box-sizing: border-box;
+  transition: max-width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .fade-in-initial { animation: fadeInInitial 0.45s cubic-bezier(0.22, 1, 0.36, 1) both; }
@@ -575,6 +577,35 @@ h1, h2, h3, h4 {
   font-size: 0.86rem;
   color: var(--text-secondary);
   letter-spacing: 0.02em;
+}
+
+.step-message-body-grid {
+  display: flex;
+  flex-direction: column;
+}
+
+.textarea-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.35rem;
+}
+
+.textarea-tip {
+  display: none;
+}
+
+.gift-box-icon-emoji {
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+.select-card-icon svg {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  display: block;
 }
 
 .diya-count {
@@ -3014,6 +3045,265 @@ h1, h2, h3, h4 {
   .dev-info-tooltip.visible {
     opacity: 1;
     transform: translateY(0) scale(1);
+  }
+}
+
+/* ==========================================================
+   DESKTOP EXPANDED LAYOUT (Pages 2 & 3: Message & Customize)
+   Desktop only (>= 860px) — Android & mobile remain 100% untouched
+   ========================================================== */
+@media (min-width: 860px) {
+  /* 1. Expand the frame & container to utilize the wide desktop monitor */
+  .creator-main-frame.creator-main-frame-wide {
+    max-width: min(980px, 92vw);
+  }
+
+  .creator-container.creator-container-wide {
+    max-width: min(980px, 92vw);
+  }
+
+  /* Spacious, elevated card padding on desktop */
+  .creator-container-wide .step-card {
+    padding: 1.85rem 2.25rem;
+    border-radius: var(--radius-xl);
+  }
+
+  /* Scaled up card headers */
+  .creator-container-wide .step-card-header {
+    gap: 1.15rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .creator-container-wide .step-icon-wrapper {
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
+  }
+
+  .creator-container-wide .step-icon-wrapper svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .creator-container-wide .step-card-title {
+    font-size: 1.45rem;
+    letter-spacing: -0.01em;
+  }
+
+  .creator-container-wide .step-card-desc {
+    font-size: 0.95rem;
+  }
+
+  /* ──────────────────────────────────────────
+     PAGE 2: CUSTOM MESSAGE PAGE (Desktop Grid)
+     2-column layout: Textarea on Left, Presets on Right
+     ────────────────────────────────────────── */
+  .creator-container-wide .step-message-body-grid {
+    display: grid;
+    grid-template-columns: 1.12fr 1fr;
+    gap: 2rem;
+    align-items: stretch;
+  }
+
+  .creator-container-wide .step-message-col-left {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0;
+  }
+
+  .creator-container-wide .step-message-col-left .form-label {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.65rem;
+    color: var(--text-primary);
+  }
+
+  .creator-container-wide .step-message-col-left .textarea-field {
+    flex: 1;
+    min-height: 245px;
+    font-size: 1.05rem;
+    line-height: 1.65;
+    padding: 1.15rem 1.25rem;
+    border-radius: var(--radius-md);
+  }
+
+  .creator-container-wide .textarea-footer {
+    margin-top: 0.55rem;
+  }
+
+  .creator-container-wide .textarea-tip {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.84rem;
+    color: var(--amber-light);
+    opacity: 0.9;
+    font-weight: 500;
+  }
+
+  .creator-container-wide .char-counter {
+    font-size: 0.84rem;
+  }
+
+  .creator-container-wide .step-message-col-right {
+    margin-top: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .creator-container-wide .preset-label {
+    font-size: 0.96rem;
+    font-weight: 600;
+    color: var(--amber-light);
+    margin-bottom: 0.75rem;
+  }
+
+  .creator-container-wide .preset-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    flex: 1;
+    justify-content: space-between;
+  }
+
+  .creator-container-wide .preset-btn {
+    padding: 0.88rem 1.15rem;
+    font-size: 0.92rem;
+    line-height: 1.55;
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(245, 166, 35, 0.12);
+  }
+
+  .creator-container-wide .preset-btn:hover {
+    transform: translateX(5px);
+    border-color: rgba(245, 166, 35, 0.35);
+    background: rgba(245, 166, 35, 0.08);
+  }
+
+  /* ──────────────────────────────────────────
+     PAGE 3: CUSTOMIZE GREETING PAGE (Desktop Grid)
+     Spacious 4-in-a-row cards, scaled mini-images & text
+     ────────────────────────────────────────── */
+  .creator-container-wide .step-card-customize .form-group {
+    margin-bottom: 1.35rem;
+  }
+
+  .creator-container-wide .step-card-customize .form-label {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    color: var(--text-primary);
+  }
+
+  .creator-container-wide .select-grid-4,
+  .creator-container-wide .select-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.15rem;
+  }
+
+  .creator-container-wide .select-card {
+    padding: 1.25rem 0.85rem;
+    min-height: 145px;
+    border-radius: var(--radius-md);
+    border-width: 2px;
+    gap: 0.45rem;
+  }
+
+  .creator-container-wide .select-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 0 15px rgba(245, 166, 35, 0.15);
+  }
+
+  /* Scaled up Mini Images / Icons: Gift Box */
+  .creator-container-wide .gift-box-swatch {
+    width: 66px;
+    height: 66px;
+    border-radius: 16px;
+    margin-bottom: 0.55rem;
+    border-width: 2px;
+  }
+
+  .creator-container-wide .gift-box-icon-emoji {
+    font-size: 2.1rem;
+  }
+
+  /* Scaled up Mini Images / Icons: Diya SVG */
+  .creator-container-wide .select-card-icon {
+    width: 68px;
+    height: 68px;
+    margin-bottom: 0.55rem;
+  }
+
+  /* Scaled up Mini Images: Background Theme swatches */
+  .creator-container-wide .select-card-swatch:not(.gift-box-swatch) {
+    width: 48px;
+    height: 48px;
+    border-width: 3px;
+    margin-bottom: 0.55rem;
+  }
+
+  /* Scaled up typography inside selection cards */
+  .creator-container-wide .select-card-label {
+    font-size: 1.02rem;
+    font-weight: 700;
+    margin-top: 0.15rem;
+  }
+
+  .creator-container-wide .select-card-desc {
+    font-size: 0.8rem;
+    line-height: 1.35;
+    color: var(--text-muted);
+    display: block;
+    margin-top: 0.15rem;
+  }
+
+  /* Scaled up Diya Slider */
+  .creator-container-wide .diya-count {
+    font-size: 1.25rem;
+    font-weight: 800;
+    margin-left: 0.35rem;
+  }
+
+  .creator-container-wide .range-slider {
+    height: 9px;
+  }
+
+  .creator-container-wide .range-labels {
+    font-size: 0.86rem;
+    margin-top: 0.4rem;
+  }
+
+  /* Scaled up Ready Hint box */
+  .creator-container-wide .ready-hint {
+    padding: 1.15rem 1.45rem;
+    border-radius: var(--radius-md);
+    margin-top: 1.35rem;
+    gap: 0.85rem;
+  }
+
+  .creator-container-wide .ready-hint p {
+    font-size: 0.94rem;
+    line-height: 1.6;
+  }
+
+  /* ──────────────────────────────────────────
+     NAVIGATION BUTTONS (Centered & balanced on desktop)
+     ────────────────────────────────────────── */
+  .creator-container-wide .creator-nav-stacked {
+    max-width: 640px;
+    margin: 1.5rem auto 0;
+    gap: 0.75rem;
+  }
+
+  .creator-container-wide .btn-nav-half {
+    padding: 0.92rem 1.4rem;
+    font-size: 1rem;
+    min-height: 48px;
+  }
+
+  .creator-container-wide .btn-nav-full {
+    padding: 0.95rem 1.5rem;
+    font-size: 1.05rem;
+    min-height: 52px;
   }
 }
 
